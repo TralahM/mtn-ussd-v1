@@ -698,17 +698,19 @@ class TestMtnUssdV1:
     @mock.patch("mtn_ussd_v1._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/messages/ussd/subscription").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/messages/ussd/outbound").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             self.client.post(
-                "/messages/ussd/subscription",
+                "/messages/ussd/outbound",
                 body=cast(
                     object,
                     dict(
-                        callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-                        service_code="*1234*356#",
-                        target_system="AYO",
+                        message_type="0",
+                        msisdn="2252312345",
+                        service_code="321123",
+                        session_id="01235",
+                        ussd_string="Please vote for xxx.",
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -720,17 +722,19 @@ class TestMtnUssdV1:
     @mock.patch("mtn_ussd_v1._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/messages/ussd/subscription").mock(return_value=httpx.Response(500))
+        respx_mock.post("/messages/ussd/outbound").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             self.client.post(
-                "/messages/ussd/subscription",
+                "/messages/ussd/outbound",
                 body=cast(
                     object,
                     dict(
-                        callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-                        service_code="*1234*356#",
-                        target_system="AYO",
+                        message_type="0",
+                        msisdn="2252312345",
+                        service_code="321123",
+                        session_id="01235",
+                        ussd_string="Please vote for xxx.",
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -763,12 +767,14 @@ class TestMtnUssdV1:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/messages/ussd/subscription").mock(side_effect=retry_handler)
+        respx_mock.post("/messages/ussd/outbound").mock(side_effect=retry_handler)
 
-        response = client.messages.ussd.subscription.with_raw_response.create(
-            callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-            service_code="*1234*356#",
-            target_system="AYO",
+        response = client.messages.ussd.outbound.with_raw_response.create(
+            message_type="0",
+            msisdn="2252312345",
+            service_code="321123",
+            session_id="01235",
+            ussd_string="Please vote for xxx.",
         )
 
         assert response.retries_taken == failures_before_success
@@ -791,12 +797,14 @@ class TestMtnUssdV1:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/messages/ussd/subscription").mock(side_effect=retry_handler)
+        respx_mock.post("/messages/ussd/outbound").mock(side_effect=retry_handler)
 
-        response = client.messages.ussd.subscription.with_raw_response.create(
-            callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-            service_code="*1234*356#",
-            target_system="AYO",
+        response = client.messages.ussd.outbound.with_raw_response.create(
+            message_type="0",
+            msisdn="2252312345",
+            service_code="321123",
+            session_id="01235",
+            ussd_string="Please vote for xxx.",
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -819,12 +827,14 @@ class TestMtnUssdV1:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/messages/ussd/subscription").mock(side_effect=retry_handler)
+        respx_mock.post("/messages/ussd/outbound").mock(side_effect=retry_handler)
 
-        response = client.messages.ussd.subscription.with_raw_response.create(
-            callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-            service_code="*1234*356#",
-            target_system="AYO",
+        response = client.messages.ussd.outbound.with_raw_response.create(
+            message_type="0",
+            msisdn="2252312345",
+            service_code="321123",
+            session_id="01235",
+            ussd_string="Please vote for xxx.",
             extra_headers={"x-stainless-retry-count": "42"},
         )
 
@@ -1492,17 +1502,19 @@ class TestAsyncMtnUssdV1:
     @mock.patch("mtn_ussd_v1._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_timeout_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/messages/ussd/subscription").mock(side_effect=httpx.TimeoutException("Test timeout error"))
+        respx_mock.post("/messages/ussd/outbound").mock(side_effect=httpx.TimeoutException("Test timeout error"))
 
         with pytest.raises(APITimeoutError):
             await self.client.post(
-                "/messages/ussd/subscription",
+                "/messages/ussd/outbound",
                 body=cast(
                     object,
                     dict(
-                        callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-                        service_code="*1234*356#",
-                        target_system="AYO",
+                        message_type="0",
+                        msisdn="2252312345",
+                        service_code="321123",
+                        session_id="01235",
+                        ussd_string="Please vote for xxx.",
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -1514,17 +1526,19 @@ class TestAsyncMtnUssdV1:
     @mock.patch("mtn_ussd_v1._base_client.BaseClient._calculate_retry_timeout", _low_retry_timeout)
     @pytest.mark.respx(base_url=base_url)
     async def test_retrying_status_errors_doesnt_leak(self, respx_mock: MockRouter) -> None:
-        respx_mock.post("/messages/ussd/subscription").mock(return_value=httpx.Response(500))
+        respx_mock.post("/messages/ussd/outbound").mock(return_value=httpx.Response(500))
 
         with pytest.raises(APIStatusError):
             await self.client.post(
-                "/messages/ussd/subscription",
+                "/messages/ussd/outbound",
                 body=cast(
                     object,
                     dict(
-                        callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-                        service_code="*1234*356#",
-                        target_system="AYO",
+                        message_type="0",
+                        msisdn="2252312345",
+                        service_code="321123",
+                        session_id="01235",
+                        ussd_string="Please vote for xxx.",
                     ),
                 ),
                 cast_to=httpx.Response,
@@ -1558,12 +1572,14 @@ class TestAsyncMtnUssdV1:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/messages/ussd/subscription").mock(side_effect=retry_handler)
+        respx_mock.post("/messages/ussd/outbound").mock(side_effect=retry_handler)
 
-        response = await client.messages.ussd.subscription.with_raw_response.create(
-            callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-            service_code="*1234*356#",
-            target_system="AYO",
+        response = await client.messages.ussd.outbound.with_raw_response.create(
+            message_type="0",
+            msisdn="2252312345",
+            service_code="321123",
+            session_id="01235",
+            ussd_string="Please vote for xxx.",
         )
 
         assert response.retries_taken == failures_before_success
@@ -1587,12 +1603,14 @@ class TestAsyncMtnUssdV1:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/messages/ussd/subscription").mock(side_effect=retry_handler)
+        respx_mock.post("/messages/ussd/outbound").mock(side_effect=retry_handler)
 
-        response = await client.messages.ussd.subscription.with_raw_response.create(
-            callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-            service_code="*1234*356#",
-            target_system="AYO",
+        response = await client.messages.ussd.outbound.with_raw_response.create(
+            message_type="0",
+            msisdn="2252312345",
+            service_code="321123",
+            session_id="01235",
+            ussd_string="Please vote for xxx.",
             extra_headers={"x-stainless-retry-count": Omit()},
         )
 
@@ -1616,12 +1634,14 @@ class TestAsyncMtnUssdV1:
                 return httpx.Response(500)
             return httpx.Response(200)
 
-        respx_mock.post("/messages/ussd/subscription").mock(side_effect=retry_handler)
+        respx_mock.post("/messages/ussd/outbound").mock(side_effect=retry_handler)
 
-        response = await client.messages.ussd.subscription.with_raw_response.create(
-            callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-            service_code="*1234*356#",
-            target_system="AYO",
+        response = await client.messages.ussd.outbound.with_raw_response.create(
+            message_type="0",
+            msisdn="2252312345",
+            service_code="321123",
+            session_id="01235",
+            ussd_string="Please vote for xxx.",
             extra_headers={"x-stainless-retry-count": "42"},
         )
 

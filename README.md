@@ -28,12 +28,14 @@ from mtn_ussd_v1 import MtnUssdV1
 
 client = MtnUssdV1()
 
-subscription_response = client.messages.ussd.subscription.create(
-    callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-    service_code="*1234*356#",
-    target_system="AYO",
+outbound = client.messages.ussd.outbound.create(
+    message_type="0",
+    msisdn="2252312345",
+    service_code="321123",
+    session_id="01235",
+    ussd_string="Please vote for xxx.",
 )
-print(subscription_response._link)
+print(outbound._link)
 ```
 
 While you can provide an `api_key` keyword argument,
@@ -53,12 +55,14 @@ client = AsyncMtnUssdV1()
 
 
 async def main() -> None:
-    subscription_response = await client.messages.ussd.subscription.create(
-        callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-        service_code="*1234*356#",
-        target_system="AYO",
+    outbound = await client.messages.ussd.outbound.create(
+        message_type="0",
+        msisdn="2252312345",
+        service_code="321123",
+        session_id="01235",
+        ussd_string="Please vote for xxx.",
     )
-    print(subscription_response._link)
+    print(outbound._link)
 
 
 asyncio.run(main())
@@ -91,10 +95,12 @@ from mtn_ussd_v1 import MtnUssdV1
 client = MtnUssdV1()
 
 try:
-    client.messages.ussd.subscription.create(
-        callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-        service_code="*1234*356#",
-        target_system="AYO",
+    client.messages.ussd.outbound.create(
+        message_type="0",
+        msisdn="2252312345",
+        service_code="321123",
+        session_id="01235",
+        ussd_string="Please vote for xxx.",
     )
 except mtn_ussd_v1.APIConnectionError as e:
     print("The server could not be reached")
@@ -138,10 +144,12 @@ client = MtnUssdV1(
 )
 
 # Or, configure per-request:
-client.with_options(max_retries=5).messages.ussd.subscription.create(
-    callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-    service_code="*1234*356#",
-    target_system="AYO",
+client.with_options(max_retries=5).messages.ussd.outbound.create(
+    message_type="0",
+    msisdn="2252312345",
+    service_code="321123",
+    session_id="01235",
+    ussd_string="Please vote for xxx.",
 )
 ```
 
@@ -165,10 +173,12 @@ client = MtnUssdV1(
 )
 
 # Override per-request:
-client.with_options(timeout=5.0).messages.ussd.subscription.create(
-    callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-    service_code="*1234*356#",
-    target_system="AYO",
+client.with_options(timeout=5.0).messages.ussd.outbound.create(
+    message_type="0",
+    msisdn="2252312345",
+    service_code="321123",
+    session_id="01235",
+    ussd_string="Please vote for xxx.",
 )
 ```
 
@@ -208,15 +218,17 @@ The "raw" Response object can be accessed by prefixing `.with_raw_response.` to 
 from mtn_ussd_v1 import MtnUssdV1
 
 client = MtnUssdV1()
-response = client.messages.ussd.subscription.with_raw_response.create(
-    callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-    service_code="*1234*356#",
-    target_system="AYO",
+response = client.messages.ussd.outbound.with_raw_response.create(
+    message_type="0",
+    msisdn="2252312345",
+    service_code="321123",
+    session_id="01235",
+    ussd_string="Please vote for xxx.",
 )
 print(response.headers.get('X-My-Header'))
 
-subscription = response.parse()  # get the object that `messages.ussd.subscription.create()` would have returned
-print(subscription._link)
+outbound = response.parse()  # get the object that `messages.ussd.outbound.create()` would have returned
+print(outbound._link)
 ```
 
 These methods return an [`APIResponse`](https://github.com/TralahM/mtn-ussd-v1/tree/main/src/mtn_ussd_v1/_response.py) object.
@@ -230,10 +242,12 @@ The above interface eagerly reads the full response body when you make the reque
 To stream the response body, use `.with_streaming_response` instead, which requires a context manager and only reads the response body once you call `.read()`, `.text()`, `.json()`, `.iter_bytes()`, `.iter_text()`, `.iter_lines()` or `.parse()`. In the async client, these are async methods.
 
 ```python
-with client.messages.ussd.subscription.with_streaming_response.create(
-    callback_url="http://10.138.40.69:11400/xportal/services/NetworkNotify",
-    service_code="*1234*356#",
-    target_system="AYO",
+with client.messages.ussd.outbound.with_streaming_response.create(
+    message_type="0",
+    msisdn="2252312345",
+    service_code="321123",
+    session_id="01235",
+    ussd_string="Please vote for xxx.",
 ) as response:
     print(response.headers.get("X-My-Header"))
 
