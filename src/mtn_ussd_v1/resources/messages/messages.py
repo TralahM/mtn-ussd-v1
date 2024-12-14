@@ -2,7 +2,8 @@
 
 from __future__ import annotations
 
-from .ussd import (
+from ..._compat import cached_property
+from .ussd.ussd import (
     UssdResource,
     AsyncUssdResource,
     UssdResourceWithRawResponse,
@@ -10,8 +11,6 @@ from .ussd import (
     UssdResourceWithStreamingResponse,
     AsyncUssdResourceWithStreamingResponse,
 )
-from ..._compat import cached_property
-from .ussd.ussd import UssdResource, AsyncUssdResource
 from ..._resource import SyncAPIResource, AsyncAPIResource
 
 __all__ = ["MessagesResource", "AsyncMessagesResource"]
