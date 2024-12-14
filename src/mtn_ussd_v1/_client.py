@@ -8,7 +8,7 @@ from typing_extensions import Self, override
 
 import httpx
 
-from . import resources, _exceptions
+from . import _exceptions
 from ._qs import Querystring
 from ._types import (
     NOT_GIVEN,
@@ -31,13 +31,13 @@ from ._base_client import (
     SyncAPIClient,
     AsyncAPIClient,
 )
+from .resources.messages import messages
 
 __all__ = [
     "Timeout",
     "Transport",
     "ProxiesTypes",
     "RequestOptions",
-    "resources",
     "MtnUssdV1",
     "AsyncMtnUssdV1",
     "Client",
@@ -46,7 +46,7 @@ __all__ = [
 
 
 class MtnUssdV1(SyncAPIClient):
-    messages: resources.MessagesResource
+    messages: messages.MessagesResource
     with_raw_response: MtnUssdV1WithRawResponse
     with_streaming_response: MtnUssdV1WithStreamedResponse
 
@@ -104,7 +104,7 @@ class MtnUssdV1(SyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.messages = resources.MessagesResource(self)
+        self.messages = messages.MessagesResource(self)
         self.with_raw_response = MtnUssdV1WithRawResponse(self)
         self.with_streaming_response = MtnUssdV1WithStreamedResponse(self)
 
@@ -214,7 +214,7 @@ class MtnUssdV1(SyncAPIClient):
 
 
 class AsyncMtnUssdV1(AsyncAPIClient):
-    messages: resources.AsyncMessagesResource
+    messages: messages.AsyncMessagesResource
     with_raw_response: AsyncMtnUssdV1WithRawResponse
     with_streaming_response: AsyncMtnUssdV1WithStreamedResponse
 
@@ -272,7 +272,7 @@ class AsyncMtnUssdV1(AsyncAPIClient):
             _strict_response_validation=_strict_response_validation,
         )
 
-        self.messages = resources.AsyncMessagesResource(self)
+        self.messages = messages.AsyncMessagesResource(self)
         self.with_raw_response = AsyncMtnUssdV1WithRawResponse(self)
         self.with_streaming_response = AsyncMtnUssdV1WithStreamedResponse(self)
 
@@ -383,22 +383,22 @@ class AsyncMtnUssdV1(AsyncAPIClient):
 
 class MtnUssdV1WithRawResponse:
     def __init__(self, client: MtnUssdV1) -> None:
-        self.messages = resources.MessagesResourceWithRawResponse(client.messages)
+        self.messages = messages.MessagesResourceWithRawResponse(client.messages)
 
 
 class AsyncMtnUssdV1WithRawResponse:
     def __init__(self, client: AsyncMtnUssdV1) -> None:
-        self.messages = resources.AsyncMessagesResourceWithRawResponse(client.messages)
+        self.messages = messages.AsyncMessagesResourceWithRawResponse(client.messages)
 
 
 class MtnUssdV1WithStreamedResponse:
     def __init__(self, client: MtnUssdV1) -> None:
-        self.messages = resources.MessagesResourceWithStreamingResponse(client.messages)
+        self.messages = messages.MessagesResourceWithStreamingResponse(client.messages)
 
 
 class AsyncMtnUssdV1WithStreamedResponse:
     def __init__(self, client: AsyncMtnUssdV1) -> None:
-        self.messages = resources.AsyncMessagesResourceWithStreamingResponse(client.messages)
+        self.messages = messages.AsyncMessagesResourceWithStreamingResponse(client.messages)
 
 
 Client = MtnUssdV1
